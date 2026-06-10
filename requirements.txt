@@ -1,0 +1,5 @@
+dnspython>=2.6.0
+plotly>=5.18.0
+httpx[socks]>=0.25.0
+colorama>=0.4.6
+PySocks>=1.7.1
