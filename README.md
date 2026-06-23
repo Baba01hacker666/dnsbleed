@@ -1,6 +1,8 @@
 # dnsbleed
 **DNS Response Timing & Privacy Analyzer**
 
+*Developed by [baba01hacker](https://github.com/Baba01hacker666)*
+
 `dnsbleed` is a high-precision DNS timing analysis and privacy evaluation tool. By mapping nanosecond-scale latency deltas across different protocols and resolvers, it mathematically detects hidden network configurations, VPN leaks, transparent DNS proxies, and other data bleeds.
 
 ## Features
