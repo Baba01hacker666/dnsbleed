@@ -10,12 +10,14 @@
   - **EDNS Client Subnet (ECS) Leaks**: Checks if the resolver broadcasts your subnet to authoritative servers.
   - **NXDOMAIN Hijacking**: Detects if non-existent domains are being intercepted and redirected to ad servers.
   - **Open Resolver Status**: Identifies misconfigured servers vulnerable to DNS amplification attacks.
-- **Multi-Protocol Support**: Seamlessly tests across `udp`, `tcp`, `dot` (DNS-over-TLS), and `doh` (DNS-over-HTTPS).
+- **Multi-Protocol & Custom Query Type Support**: Seamlessly tests across `udp`, `tcp`, `dot` (DNS-over-TLS), and `doh` (DNS-over-HTTPS), with support for custom query types (e.g., `A`, `AAAA`, `MX`, `TXT`, `CNAME`).
+- **DNSSEC Validation Validation**: Verifies that the resolver validates signature integrity and blocks invalid signature chains (e.g. `dnssec-failed.org`).
+- **Rate-Limiting & Burst Auditing**: Evaluates resolver packet loss and connection stability under rapid burst traffic.
 - **Stealth & Evasion**: Utilizes random subdomain prefixing (`--random-subdomains`), configurable query sleep intervals (`--jitter`), and SOCKS5 proxy support.
 
 ## Installation
 ```bash
-git clone https://github.com/baba01hacker/dnsbleed.git
+git clone https://github.com/Baba01hacker666/dnsbleed.git
 cd dnsbleed
 python3 -m venv .venv
 source .venv/bin/activate
@@ -24,9 +26,9 @@ pip install .
 
 ## Usage
 ### Basic Latency Mapping
-Test standard UDP and TCP latencies across multiple resolvers:
+Test standard UDP and TCP latencies across multiple resolvers with custom query types:
 ```bash
-dnsbleed -d example.com -r 8.8.8.8,1.1.1.1 -p udp,tcp -c 10
+dnsbleed -d example.com -r 8.8.8.8,1.1.1.1 -p udp,tcp -q A,AAAA -c 10
 ```
 
 You can also read domains and resolvers from files (one per line):
@@ -46,10 +48,10 @@ Determine if `target-website.com` has been recently visited by another user on t
 dnsbleed -d target-website.com -r 10.0.0.1 --cache-snoop -c 5
 ```
 
-### Privacy & Misconfiguration Checks
-Test modern protocols (DoH and DoT) while scanning for ECS leaks and hijacking:
+### Privacy, DNSSEC & Misconfiguration Checks
+Test modern protocols (DoH and DoT) while scanning for ECS leaks, hijacking, and DNSSEC enforcement:
 ```bash
-dnsbleed -d github.com -r https://1.1.1.1/dns-query,8.8.8.8 -p doh,dot --check-misconfigs
+dnsbleed -d github.com -r 8.8.8.8 -p udp --check-misconfigs --check-dnssec --check-rate-limit
 ```
 
 ### SOCKS5 Proxy Routing
